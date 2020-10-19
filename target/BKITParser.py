@@ -43,7 +43,7 @@ class BKITParser ( Parser ):
                       "TO", "DOWNTO", "RETURN", "BREAK", "CONTINUE", "INTEGER", 
                       "STRING", "FLOAT", "BOOLEAN", "ARRAY", "VAR", "OF", 
                       "BLOCK_COMMENT", "INTLIT", "FLOATLIT", "BOOLEANLIT", 
-                      "STRINGLIT", "OCT", "HEX", "DEC", "WS", "ERROR_CHAR", 
+                      "STRING_LIT", "OCT", "HEX", "DEC", "WS", "ERROR_CHAR", 
                       "UNCLOSE_STRING", "ILLEGAL_ESCAPE", "UNTERMINATED_COMMENT" ]
 
     RULE_program = 0
@@ -107,7 +107,7 @@ class BKITParser ( Parser ):
     INTLIT=54
     FLOATLIT=55
     BOOLEANLIT=56
-    STRINGLIT=57
+    STRING_LIT=57
     OCT=58
     HEX=59
     DEC=60

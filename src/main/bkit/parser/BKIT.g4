@@ -118,7 +118,12 @@ FLOATLIT: DIGIT+ DOT (DIGIT | EXPONENT)* // 1 | 1.5 | 1.e-4
 //Boolean
 BOOLEANLIT: TRUE | FALSE ;
 //String
-STRINGLIT:'"' STR_CHAR*'"';
+STRING_LIT: '"' STR_CHAR* '"'
+	{
+		y = str(self.text)
+		self.text = y[1:-1]
+	}
+	;
 //Array
 //ARRAYLIT: LCB RCB;
 //nodeArray:
@@ -143,7 +148,12 @@ UNCLOSE_STRING: '"' STR_CHAR* ( [\b\t\n\f\r"'\\] | EOF )
 			raise UncloseString(y[1:])
 	}
 	;
-ILLEGAL_ESCAPE: .;
+ILLEGAL_ESCAPE: '"' STR_CHAR* ESC_ILLEGAL
+	{
+		y = str(self.text)
+		raise IllegalEscape(y[1:])
+	}
+	;
 UNTERMINATED_COMMENT: .;
 fragment A: [aA];
 fragment B: [bB];
@@ -174,5 +184,7 @@ fragment Z: [zZ];
 fragment EXPONENT: [eE] SIGN? DIGIT+ ;
 fragment DIGIT: [0-9] ;
 fragment SIGN: [+-] ;
-fragment STR_CHAR: ~[\b\t\n\f\r] | '\'"' ;
+fragment STR_CHAR: ~[\b\t\n\f\r \\] | ESC_SEQ ;
+fragment ESC_SEQ: '\\' [btnfr"'\\] ;
+fragment ESC_ILLEGAL: '\\' ~[btnfr"'\\] | ~'\\' ;
 
